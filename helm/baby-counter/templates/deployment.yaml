@@ -41,6 +41,11 @@ spec:
                 secretKeyRef:
                   name: {{ include "baby-counter.fullname" . }}
                   key: rails-secret-key-base
+            - name: RAILS_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "baby-counter.fullname" . }}
+                  key: rails-master-key
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -63,6 +68,11 @@ spec:
                 secretKeyRef:
                   name: {{ include "baby-counter.fullname" . }}
                   key: rails-secret-key-base
+            - name: RAILS_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "baby-counter.fullname" . }}
+                  key: rails-master-key
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:

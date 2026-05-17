@@ -20,6 +20,9 @@ rails:
   # Secret key base for Rails (generate with: rails secret)
   secretKeyBase: ""
 
+  # Master key for Rails credentials (from config/master.key)
+  masterKey: ""
+
 # PostgreSQL database configuration
 postgresql:
   enabled: true
