@@ -1,0 +1,61 @@
+# Rails application configuration
+rails:
+  replicaCount: 1
+  image:
+    repository: baby-counter
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+
+  # Rails environment
+  railsEnv: production
+
+  # Secret key base for Rails (generate with: rails secret)
+  secretKeyBase: ""
+
+# PostgreSQL database configuration
+postgresql:
+  enabled: true
+
+  image:
+    repository: postgres
+    tag: "16-alpine"
+    pullPolicy: IfNotPresent
+
+  auth:
+    database: baby_counter_production
+    username: baby_counter
+    password: ""
+    postgresPassword: ""
+
+  storage:
+    size: 1Gi
+    storageClassName: ""
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+
+# Ingress configuration (Traefik IngressRoute CRD)
+ingress:
+  enabled: true
+  hostname: baby-counter.example.com
+  tls:
+    enabled: false
+    issuer: letsencrypt-prod
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 3000

@@ -1,0 +1,82 @@
+{{- if .Values.ingress.enabled }}
+{{- if .Values.ingress.tls.enabled }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "baby-counter.fullname" . }}-tls
+  labels:
+    {{- include "baby-counter.labels" . | nindent 4 }}
+spec:
+  secretName: {{ include "baby-counter.fullname" . }}-tls
+  issuerRef:
+    name: {{ .Values.ingress.tls.issuer }}
+    kind: ClusterIssuer
+  dnsNames:
+    - {{ .Values.ingress.hostname }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "baby-counter.fullname" . }}-redirect-https
+  labels:
+    {{- include "baby-counter.labels" . | nindent 4 }}
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "baby-counter.fullname" . }}-http
+  labels:
+    {{- include "baby-counter.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`{{ .Values.ingress.hostname }}`)
+      kind: Rule
+      middlewares:
+        - name: {{ include "baby-counter.fullname" . }}-redirect-https
+      services:
+        - name: {{ include "baby-counter.fullname" . }}
+          port: {{ .Values.service.port }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "baby-counter.fullname" . }}-https
+  labels:
+    {{- include "baby-counter.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.ingress.hostname }}`)
+      kind: Rule
+      services:
+        - name: {{ include "baby-counter.fullname" . }}
+          port: {{ .Values.service.port }}
+  tls:
+    secretName: {{ include "baby-counter.fullname" . }}-tls
+{{- else }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "baby-counter.fullname" . }}
+  labels:
+    {{- include "baby-counter.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`{{ .Values.ingress.hostname }}`)
+      kind: Rule
+      services:
+        - name: {{ include "baby-counter.fullname" . }}
+          port: {{ .Values.service.port }}
+{{- end }}
+{{- end }}

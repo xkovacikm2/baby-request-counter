@@ -1,0 +1,58 @@
+<% if notice %>
+  <div data-controller="toast" data-toast-duration-value="5000" class="toast">
+    <%= notice %>
+  </div>
+<% end %>
+
+<div class="page-wrapper" data-controller="score">
+  <h1 class="page-title">Baby Counter</h1>
+
+  <div class="button-group">
+    <%= button_to "+", increment_plus_path, method: :post, class: "btn-plus" %>
+
+    <%= button_to "−", increment_minus_path, method: :post, class: "btn-minus" %>
+  </div>
+
+  <button data-action="click->score#toggle" class="btn-reveal">
+    Reveal Score
+  </button>
+
+  <div data-score-target="chart" class="chart-container hidden">
+    <div class="chart-card">
+      <h2 class="chart-title">Score Board</h2>
+
+      <div class="chart-bars">
+        <%# Plus bar %>
+        <div class="bar-row">
+          <span class="bar-label">Plus</span>
+          <div class="bar-track">
+            <% max_val = [@counter.plus, @counter.minus, 1].max %>
+            <div class="bar-fill-plus"
+                 style="width: <%= (@counter.plus.to_f / max_val * 100).round %>%">
+              <span class="bar-value"><%= @counter.plus %></span>
+            </div>
+          </div>
+        </div>
+
+        <%# Minus bar %>
+        <div class="bar-row">
+          <span class="bar-label">Minus</span>
+          <div class="bar-track">
+            <div class="bar-fill-minus"
+                 style="width: <%= (@counter.minus.to_f / max_val * 100).round %>%">
+              <span class="bar-value"><%= @counter.minus %></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%# Saldo %>
+      <div class="saldo-section">
+        <span class="saldo-label">Saldo</span>
+        <p class="saldo-value <%= @counter.saldo >= 0 ? 'saldo-positive' : 'saldo-negative' %>">
+          <%= @counter.saldo >= 0 ? '+' : '' %><%= @counter.saldo %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

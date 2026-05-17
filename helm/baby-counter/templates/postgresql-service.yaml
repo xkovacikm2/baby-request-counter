@@ -1,0 +1,19 @@
+{{- if .Values.postgresql.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "baby-counter.fullname" . }}-postgresql
+  labels:
+    {{- include "baby-counter.labels" . | nindent 4 }}
+    app.kubernetes.io/component: database
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+      targetPort: postgresql
+      protocol: TCP
+      name: postgresql
+  selector:
+    {{- include "baby-counter.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: database
+{{- end }}

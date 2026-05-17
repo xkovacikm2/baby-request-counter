@@ -1,0 +1,9 @@
+.git
+.devcontainer
+.github
+.kamal
+helm
+log/*
+tmp/*
+storage/*
+node_modules
