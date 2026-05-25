@@ -8,26 +8,25 @@ class CountersTest < ApplicationSystemTestCase
 
   test "visiting the main page" do
     visit root_url
-    assert_selector "h1", text: "Baby Counter"
+    assert_selector "h1", text: "Baby Počítadlo"
   end
 
   test "incrementing plus" do
     visit root_url
     click_on "+"
-    assert_selector "h1", text: "Baby Counter"
+    assert_selector "h1", text: "Baby Počítadlo"
     assert_equal 1, Counter.first.plus
   end
 
   test "incrementing minus" do
     visit root_url
     click_on "−"
-    assert_selector "h1", text: "Baby Counter"
+    assert_selector "h1", text: "Baby Počítadlo"
     assert_equal 1, Counter.first.minus
   end
 
-  test "reveal score shows chart" do
+  test "chart is always visible" do
     visit root_url
-    click_on "Reveal Score"
-    assert_selector "h2", text: "Score Board"
+    assert_selector "h2", text: "Výsledky"
   end
 end
