@@ -4,8 +4,8 @@
   </div>
 <% end %>
 
-<div class="page-wrapper" data-controller="score">
-  <h1 class="page-title">Baby Counter</h1>
+<div class="page-wrapper">
+  <h1 class="page-title">Baby Počítadlo</h1>
 
   <div class="button-group">
     <%= button_to "+", increment_plus_path, method: :post, class: "btn-plus" %>
@@ -13,13 +13,9 @@
     <%= button_to "−", increment_minus_path, method: :post, class: "btn-minus" %>
   </div>
 
-  <button data-action="click->score#toggle" class="btn-reveal">
-    Reveal Score
-  </button>
-
-  <div data-score-target="chart" class="chart-container hidden">
+  <div class="chart-container">
     <div class="chart-card">
-      <h2 class="chart-title">Score Board</h2>
+      <h2 class="chart-title">Výsledky</h2>
 
       <div class="chart-bars">
         <%# Plus bar %>
@@ -36,7 +32,7 @@
 
         <%# Minus bar %>
         <div class="bar-row">
-          <span class="bar-label">Minus</span>
+          <span class="bar-label">Mínus</span>
           <div class="bar-track">
             <div class="bar-fill-minus"
                  style="width: <%= (@counter.minus.to_f / max_val * 100).round %>%">
@@ -48,7 +44,7 @@
 
       <%# Saldo %>
       <div class="saldo-section">
-        <span class="saldo-label">Saldo</span>
+        <span class="saldo-label">Rozdiel</span>
         <p class="saldo-value <%= @counter.saldo >= 0 ? 'saldo-positive' : 'saldo-negative' %>">
           <%= @counter.saldo >= 0 ? '+' : '' %><%= @counter.saldo %>
         </p>
