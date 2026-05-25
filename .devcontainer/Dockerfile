@@ -9,7 +9,14 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     postgresql-client \
+    chromium \
+    chromium-driver \
     && rm -rf /var/lib/apt/lists/*
+
+# Configure Selenium to use system Chromium
+ENV CHROME_BIN="/usr/bin/chromium" \
+    CHROMIUM_BIN="/usr/bin/chromium" \
+    SE_CHROME_EXECUTABLE="/usr/bin/chromium"
 
 # Install yarn
 RUN npm install -g yarn
