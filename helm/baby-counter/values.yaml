@@ -62,3 +62,11 @@ ingress:
 service:
   type: ClusterIP
   port: 3000
+
+# WebEndpoint CRD configuration
+webEndpoint:
+  enabled: true
+  name: "Baby counter"
+  description: "Counting + and - if we should have another"
+  url: "https://baby-counter.example.com"
+  icon: "mdi:baby-face-outline"
