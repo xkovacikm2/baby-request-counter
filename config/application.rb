@@ -17,6 +17,7 @@ module BabyCounter
     config.autoload_lib(ignore: %w[assets tasks])
 
     # Configuration for the application, engines, and railties goes here.
+    config.action_dispatch.default_headers.delete("X-Frame-Options")
     #
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
